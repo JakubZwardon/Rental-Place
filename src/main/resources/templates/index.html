@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: headerfiles">
+</head>
+
+<body>
+<nav th:replace="fragments/general :: navbar"></nav>
+
+<div class="container">
+	<h1 class="text-center">Witaj</h1>
+	
+	<p><a href="/rentEquipment">Wypożycz sprzęt</a></p>
+	<p><a href="/equipment/new">Wprowadź sprzęt do bazy danych</a><p>
+	<p><a href="/chooseClient">Klienci</a></p>
+	<p><a href="/chooseEquipment">Sprzęt</a></p>
+</div>
+
+<th:block th:replace="fragments/general.html :: scripts"></th:block>
+</body>
+</html>

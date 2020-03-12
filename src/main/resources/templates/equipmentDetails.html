@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: headerfiles">
+</head>
+
+<body>
+<nav th:replace="fragments/general :: navbar"></nav>
+
+<div class="container">
+  <h1 class="text-center">Sprzęt</h1>
+  <div>
+    <input th:replace="fragments/output.html :: output('Nazwa', 'equipment.name', 'text')">
+    <input th:replace="fragments/output.html :: output('Producent', 'equipment.producer', 'text')">
+    <input th:replace="fragments/output.html :: output('Model', 'equipment.model', 'text')">
+    <input th:replace="fragments/output.html :: output('Opis', 'equipment.description', 'text')">
+    <input th:replace="fragments/output.html :: output('Data produkcji', 'equipment.prodDate', 'date')">
+    <input th:replace="fragments/output.html :: output('Stan', ${equipment.isRented} ? 'u klienta' : 'na magazynie', 'info')">
+  </div>
+</div>
+
+<th:block th:replace="fragments/general.html :: scripts"></th:block>
+</body>
+</html>
+
+

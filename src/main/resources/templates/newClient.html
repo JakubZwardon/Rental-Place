@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: headerfiles">
+    <title>Rental Place-new transaction</title>
+</head>
+
+<body>
+<div class="container">
+	<h1 class="text-center">Nowy klient</h1>
+	
+	<form th:object="${client}" action ="#" th:action="@{/client/new}" method="post" id="add_client_form">
+		
+		<div class="row">
+			<div class="col-6">
+				<p class="text-center">Wprowadź dane dla nowego klienta</p>
+				<div class="form-group">
+					<label for="firstName">Imię</label>
+					<input type="text" class="form-control" id="firstName" th:field="${client.firstName}">
+					<span th:errors="*{firstName}">Error message</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="lastName">Nazwisko</label>
+			<input type="text" class="form-control" id="lastName" th:field="${client.lastName}">
+		</div>
+		
+		<button type="submit">OK</button>
+	</form>
+</div>
+</body>
+</html>

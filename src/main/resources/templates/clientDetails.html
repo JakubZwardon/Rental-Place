@@ -1,0 +1,80 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: headerfiles">
+</head>
+
+<body>
+<nav th:replace="fragments/general :: navbar"></nav>
+
+<div class="container">
+  <h1 class="text-center">Dane klienta</h1>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clientFirstName" style="display:block">Imię</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clientFirstName" class="form-control" readonly th:value="${client.firstName}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clientLastName" style="display:block">Nazwisko</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clientLastName" class="form-control" readonly th:value="${client.lastName}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clienteMail" style="display:block">e-mail</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clienteMail" class="form-control" readonly th:value="${client.eMail}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clientTelephone" style="display:block">telefon</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clientTelephone" class="form-control" readonly th:value="${client.telephone}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clientAdress" style="display:block">adres</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clientAdress" class="form-control" readonly th:value="${client.address}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clientCity" style="display:block">miasto</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clientCity" class="form-control" readonly th:value="${client.city}" style="text-align: right"></input>
+    </div>
+  </div>
+  
+  <h4>Aktywne tranzakcje</h4>
+  <div class="row"> 
+    <div class="col-sm-5">
+      <p th:each="transaction: ${actualTransaction}"><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}" th:text="@{{name} {rentalDate}(name=${transaction.equipment.name}, rentalDate=${transaction.rentalDate.rentalDate})}"></a></p>
+    </div>
+  </div>
+  
+  <h4>Historia tranzakcji</h4>
+  <div class="row"> 
+    <div class="col-sm-5">
+      <p th:each="transaction: ${unactualTransaction}"><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}" th:text="@{{name} {rentalDate}(name=${transaction.equipment.name}, rentalDate=${transaction.rentalDate.rentalDate})}"></a></p>
+    </div>
+  </div>
+  
+</div>
+
+<th:block th:replace="fragments/general.html :: scripts"></th:block>
+</body>
+</html>

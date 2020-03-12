@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: headerfiles">
+</head>
+
+<body>
+<nav th:replace="fragments/general :: navbar"></nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="text-center">Nowy sprzęt</h1>	
+	  <p class="text-center">Wprowadź dane dla nowego sprzętu</p>
+    </div>
+  </div>
+    
+  <form th:object="${equipment}" th:action="@{/equipment/new}" method="post" id="add_equipment_form">
+    <div>
+      <input th:replace="fragments/input.html :: input('Nazwa', 'name', 'text')">
+      <input th:replace="fragments/input.html :: input('Producent', 'producer', 'text')">
+      <input th:replace="fragments/input.html :: input('Model', 'model', 'text')">
+      <input th:replace="fragments/input.html :: input('Opis', 'description', 'text')">
+      <input th:replace="fragments/input.html :: input('Data produkcji', 'prodDate', 'date')">
+    </div>
+  
+    <div class="row">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-6">
+        <button class="btn btn-primary" type="submit">Nowy sprzęt</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<th:block th:replace="fragments/general.html :: scripts"></th:block>
+</body>
+</html>

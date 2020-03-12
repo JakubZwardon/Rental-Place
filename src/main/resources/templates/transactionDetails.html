@@ -1,0 +1,97 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: headerfiles">
+</head>
+
+<body onload="checkReturnDate()">
+<nav th:replace="fragments/general :: navbar"></nav>
+
+<div class="container">
+  <h1 class="text-center">Detale tranzakcji</h1>
+	
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clientFirstName" style="display:block">Imię</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clientFirstName" class="form-control" readonly th:value="${client.firstName}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clientLastName" style="display:block">Nazwisko</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clientLastName" class="form-control" readonly th:value="${client.lastName}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="clienteMail" style="display:block">e-mail</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="clienteMail" class="form-control" readonly th:value="${client.eMail}" style="text-align: right"></input>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="equipmentName" style="display:block">Nazwa</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="equipmentName" class="form-control" readonly th:value="${equipment.name}" style="text-align: right"></input>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="rentalDate" style="display:block">Data wypożyczenia</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="rentalDate" class="form-control" readonly th:value="${transaction.rentalDate.rentalDate}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="targetReturnDate" style="display:block">Planowana data zwrotu</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="targetReturnDate" class="form-control" readonly th:value="${transaction.rentalDate.targetReturnDate}" style="text-align: right"></input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label class="control-label" for="returnDate" style="display:block">Data zwrotu</label>
+    </div>
+    <div class="col-sm-5">
+      <input id="returnDate" class="form-control" readonly style="text-align: right"></input>
+    </div>
+  </div>
+  
+  <a id="returnButton" th:href="@{/transactions/{transactionId}/close(transactionId=${transaction.id})}" class="btn btn-primary" aria-disabled="true" role="button">Oddaj sprzęt</a>
+<!--   <input id="returnButton" class="btn btn-primary" type="button" value="Oddaj sprzęt"/> -->
+</div>
+
+<th:block th:replace="fragments/general.html :: scripts"></th:block>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+  function checkReturnDate() {
+	var returnDate = /*[[${rentalDate.returnDate}]]*/;
+	var returnDateField = document.getElementById("returnDate");
+	var returnButton = document.getElementById("returnButton");
+	if(returnDate == null) {
+		//alert("null");
+		returnDateField.value = "U klienta";
+	}else {
+		//alert("not null");
+		returnDateField.value = returnDate;
+		//returnButton.disabled = true;
+		returnButton.className += " disabled";
+	}
+}
+/*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<form>
+  <th:block th:fragment="output(label, name, type)">
+    <div class="form-group row">
+	  <div class="col-sm-2"></div>
+	    <label class="col-sm-2 control-label" th:for="${label}" th:text="${label}">Label</label>
+		<div class="col-sm-6" th:switch="${type}">
+		  <input th:case="'text'" class="form-control" th:id="${label}" type="text" th:field="*{__${name}__}"
+		    th:placeholder="${label}" th:title="Podaj +' '+ ${label}" readonly>
+		  <input th:case="'date'" class="form-control" th:id="${label}" type="text" th:field="*{__${name}__}"
+			placeholder="YYYY-MM-DD" title="Podaj date w następującym formacie: YYYY-MM-DD"
+              pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" readonly>
+          <input th:case="'info'" class="form-control" th:id="${label}" type="text" th:value="${name}"
+		    th:placeholder="${label}" th:title="Podaj +' '+ ${label}" readonly>  
+	  </div>
+    </div>
+  </th:block>
+</form>
+</body>
+</html>
