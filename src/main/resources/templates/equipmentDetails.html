@@ -9,17 +9,48 @@
 
 <div class="container">
   <h1 class="text-center">Sprzęt</h1>
+  
+  <form th:object="${equipment}" th:action="@{/equipment/edit}" method="post" id="edit_equipment_form">
   <div>
-    <input th:replace="fragments/output.html :: output('Nazwa', 'equipment.name', 'text')">
-    <input th:replace="fragments/output.html :: output('Producent', 'equipment.producer', 'text')">
-    <input th:replace="fragments/output.html :: output('Model', 'equipment.model', 'text')">
-    <input th:replace="fragments/output.html :: output('Opis', 'equipment.description', 'text')">
-    <input th:replace="fragments/output.html :: output('Data produkcji', 'equipment.prodDate', 'date')">
+    <input th:replace="fragments/output.html :: output('Nazwa', 'name', 'text')">
+    <input th:replace="fragments/output.html :: output('Producent', 'producer', 'text')">
+    <input th:replace="fragments/output.html :: output('Model', 'model', 'text')">
+    <input th:replace="fragments/output.html :: output('Opis', 'description', 'text')">
+    <input th:replace="fragments/output.html :: output('Data produkcji', 'prodDate', 'date')">
     <input th:replace="fragments/output.html :: output('Stan', ${equipment.isRented} ? 'u klienta' : 'na magazynie', 'info')">
   </div>
+  
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-6">
+      <button id="submitButton" class="btn btn-primary" type="submit" disabled>Edytuj Sprzęt</button>
+    </div>
+  </div>
+  </form>
+  
+  Historia
+  kto ma
+  <input id="editButton" type="button" value="Tryb edycji" onclick="enableEquipmentEdit()" />
 </div>
 
 <th:block th:replace="fragments/general.html :: scripts"></th:block>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+function changeReadonlyState(fieldId) {
+  var textField = document.getElementById(fieldId);
+  textField.readOnly = false;
+}
+function enableEquipmentEdit() {
+  changeReadonlyState("Nazwa");
+  changeReadonlyState("Producent");
+  changeReadonlyState("Model");
+  changeReadonlyState("Opis");
+  changeReadonlyState("Data produkcji");
+  document.getElementById("submitButton").disabled = false;
+}
+/*]]>*/
+</script>
 </body>
 </html>
 
