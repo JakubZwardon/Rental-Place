@@ -7,7 +7,9 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -23,6 +25,12 @@ public class EquipmentController {
 		this.equipmentRepository = equipmentRepository;
 	}
 
+//	@InitBinder
+//	public void setAllowedFields(WebDataBinder dataBinder) {
+//		dataBinder.setDisallowedFields("description");
+//		System.out.println(dataBinder.getDisallowedFields());
+//	}
+	
 	@GetMapping("/equipment/new")
 	public String newEquipmentInit(Model model) {
 		Equipment equipment = new Equipment();
@@ -56,5 +64,20 @@ public class EquipmentController {
 		Equipment equipment = this.equipmentRepository.findById(id);
 		model.addAttribute("equipment", equipment);
 		return "equipmentDetails";
+	}
+	
+	@PostMapping("/equipment/{id}/edit")
+	public String editEquipment(@Valid Equipment equipment, BindingResult bindingResult, @PathVariable("id") int id) {
+		if(bindingResult.hasErrors()) {
+			System.out.println("Błąd w edycji equipment");
+			return "equipmentDetails";
+		}
+		else {
+			Equipment originalEquipment = this.equipmentRepository.findById(id);
+			equipment.setId(id);
+			equipment.setRented(originalEquipment.isRented());
+			this.equipmentRepository.save(equipment);
+			return "equipmentDetails";
+		}
 	}
 }

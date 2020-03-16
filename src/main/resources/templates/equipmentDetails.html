@@ -10,7 +10,7 @@
 <div class="container">
   <h1 class="text-center">Sprzęt</h1>
   
-  <form th:object="${equipment}" th:action="@{/equipment/edit}" method="post" id="edit_equipment_form">
+  <form th:object="${equipment}" th:action="@{/equipment/{equipmentId}/edit(equipmentId=${equipment.id})}" method="post" id="edit_equipment_form">
   <div>
     <input th:replace="fragments/output.html :: output('Nazwa', 'name', 'text')">
     <input th:replace="fragments/output.html :: output('Producent', 'producer', 'text')">
