@@ -1,5 +1,6 @@
 package pl.jakubZwardon.rentalPlace.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import pl.jakubZwardon.rentalPlace.model.Client;
 import pl.jakubZwardon.rentalPlace.model.Equipment;
+import pl.jakubZwardon.rentalPlace.model.Transaction;
 import pl.jakubZwardon.rentalPlace.repositories.EquipmentRepository;
 
 @Controller
@@ -63,6 +65,19 @@ public class EquipmentController {
 	public String showEquipmentDetails(@PathVariable("id") int id, Model model) {
 		Equipment equipment = this.equipmentRepository.findById(id);
 		model.addAttribute("equipment", equipment);
+		
+		//Dziele tranzakcje na aktywne i te już zamknięte
+		java.util.List<Transaction> actualTransaction = new ArrayList<>();
+		java.util.List<Transaction> unactualTransaction = new ArrayList<>();
+		for(Transaction tr: equipment.getTransactions()) {
+			if(tr.getRentalDate().getReturnDate() == null) {
+				actualTransaction.add(tr);
+			} else {
+				unactualTransaction.add(tr);
+			}
+		}
+		model.addAttribute("actualTransaction", actualTransaction);
+		model.addAttribute("unactualTransaction", unactualTransaction);
 		return "equipmentDetails";
 	}
 	

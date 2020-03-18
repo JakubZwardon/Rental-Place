@@ -28,9 +28,21 @@
   </div>
   </form>
   
-  Historia
-  kto ma
   <input id="editButton" type="button" value="Tryb edycji" onclick="enableEquipmentEdit()" />
+  
+  <h3>Kto aktualnie posiada ten sprzęt</h3>
+  <div class="row"> 
+    <div class="col-sm-5">
+      <p th:each="transaction: ${actualTransaction}"><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}" th:text="@{{name} {rentalDate}(name=${transaction.client.firstName}, rentalDate=${transaction.rentalDate.rentalDate})}"></a></p>
+    </div>
+  </div>
+  
+  <h3>Historia</h3>
+  <div class="row"> 
+    <div class="col-sm-5">
+      <p th:each="transaction: ${unactualTransaction}"><a th:href="@{/transactions/{transactionId}(transactionId=${transaction.id})}" th:text="@{{name} {rentalDate}(name=${transaction.client.firstName}, rentalDate=${transaction.rentalDate.rentalDate})}"></a></p>
+    </div>
+  </div>
 </div>
 
 <th:block th:replace="fragments/general.html :: scripts"></th:block>
