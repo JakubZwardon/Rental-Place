@@ -10,11 +10,16 @@
 <div class="container">
   <h1 class="text-center">Wybierz sprzęt</h1>
 	
-  <table>
+  <table class="choseEquipTable">
+  	<tr>
+  	  <th>Producent</th>
+  	  <th>Model</th>
+  	  <th>Nazwa</th>
+  	</tr>
     <tr th:each="equip: ${equipmentsInDb}">
       <td> <a th:href="@{/equipments/{equipmentId}/equipmentDetails(equipmentId=${equip.id})}" th:text="${equip.producer}"></a></td>
       <td th:text="${equip.model}"></td>
-      <td th:text="${equip.description}"></td>
+      <td th:text="${equip.name}"></td>
     </tr> 
   </table>
 </div>
