@@ -50,7 +50,7 @@ public class WelcomeController {
 	
 	@GetMapping("/rentEquipment")
 	public String choseUserInit(Model model) {
-		//Collection<Equipment> equipmentsInDb = this.equipmentRepository.findAll();
+		//Pobieram tylko te które są na magazynie
 		Collection<Equipment> equipmentsInDb = this.equipmentRepository.findByisRentedFalse();
 		//Nie potrzebuje tranzakcji w tym widoku
 		for(Equipment cli : equipmentsInDb) {

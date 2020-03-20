@@ -2,9 +2,6 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <head th:replace="fragments/general.html :: headerfiles">
-
-
-
 </head>
 
 <body>
@@ -59,12 +56,9 @@
 	  <div class="col-sm-5">
 	  <div th:object="${equipment}">
 	   <label for="equipList" style="display:block" class="control-label">Wybierz maszynę</label>
-<!-- 	   <input list="equipments" id="equipList" th:field="${equipment.id}" class="form-control" required/> -->
-<!-- 	   <datalist id="equipments"> -->
-<select id="equipmentsList" th:field="${equipment.id}" onchange="printEquipment()">
+	  <select id="equipmentsList" th:field="${equipment.id}" onchange="printEquipment()">
 	     <option th:each="equipmentItem : ${equipmentsInDb}" th:text="${equipmentItem.name}" th:value="${equipmentItem.id}"/>
-	     </select>
-<!-- 	   </datalist> -->
+	  </select>
 	 </div>
 	 </div>
 	 <div class="col-sm-7">
@@ -75,28 +69,39 @@
 	    <div class="col-sm-6">
 	      <input id="equipmentName" class="form-control" readonly></input>
 	    </div>
-	      
+	 </div>
+	 <div class="row justify-content-end form-group">
+	    <div class="col-sm-4">
+	      <label class="control-label" for="equipmentName" >Producent: </label>
 	    </div>
+	    <div class="col-sm-6">
+	      <input id="equipmentProducer" class="form-control" readonly></input>
+	    </div>
+	 </div>
+	 <div class="row justify-content-end form-group">
+	    <div class="col-sm-4">
+	      <label class="control-label" for="equipmentName" >Model: </label>
+	    </div>
+	    <div class="col-sm-6">
+	      <input id="equipmentModel" class="form-control" readonly></input>
+	    </div>
+	 </div>
 	 </div>
 	 </div>
 	 
 	 <div th:object="${rentalDate}">
 	   <label for="returnDateInput">Podaj planowaną datę zwrotu</label>
-	   <input id="returnDateInput" type="date" th:field="${rentalDate.targetReturnDate}"/>
+	   <input id="returnDateInput" type="date" onclick="setMinDateToChoose()" th:field="${rentalDate.targetReturnDate}"/>
 	 </div>
 	
 	<div class="row">  
 	  <div class="col-sm-2">
-	    <button class="btn btn-primary" type="submit">OK</button>
+	    <button class="btn btn-primary" type="submit">Zatwierdź dane</button>
 	  </div>
 	</div>
 	</form>
 	
-	 
-	
 	<a href="client/new">Utwórz nowego klienta</a>
-	
-	<!-- <a th:href="@{__${id}__/client/new}">Utwórz nowego klienta</a> -->	
 </div>
 
 
@@ -104,6 +109,24 @@
 <script th:inline="javascript">
   /*<![CDATA[*/
   document.getElementById("equipmentsList").selectedIndex = -1;
+  
+    //Ustawia min dla pola wyboru daty
+    function setMinDateToChoose() {
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1;
+      var yyyy = today.getFullYear();
+      
+      if(dd<10) {
+    	dd = '0' + dd;
+      }
+      if(mm<10) {
+        mm='0'+mm;
+      }
+      
+      today = yyyy + '-' + mm + '-' + dd;
+      document.getElementById("returnDateInput").setAttribute("min", today);
+    }
   
     function checkMail(client) {
       debugger;
@@ -156,8 +179,9 @@
     debugger;
       let equipmentsInDb = /*[[${equipmentsInDb}]]*/;
       let equipment = equipmentsInDb.find(checkEquipmentId);
-      //alert("K");
       document.getElementById("equipmentName").value = equipment.name;
+      document.getElementById("equipmentProducer").value = equipment.producer;
+      document.getElementById("equipmentModel").value = equipment.model;
     }
     
   /*]]>*/
