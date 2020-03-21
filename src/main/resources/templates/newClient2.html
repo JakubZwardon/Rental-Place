@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	
-	<form th:object="${client}" th:action="@{/client/new}" method="post" id="add_client_form">
+	<form th:object="${client}" th:action="@{/client/new}" method="post" id="add_client_form" autocomplete="off">
 		<div>
 			<input th:replace="fragments/input.html :: input('Imię', 'firstName', 'text')">
 			<input th:replace="fragments/input.html :: input('Nazwisko', 'lastName', 'text')">

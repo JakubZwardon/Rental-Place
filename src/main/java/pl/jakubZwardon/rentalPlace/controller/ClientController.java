@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,21 +29,17 @@ public class ClientController {
 
 	@GetMapping("/client/new")
 	public String newClientInit(Model model, Client client) {
-		//Client client = new Client();
 		model.addAttribute("client", client);
-		//System.out.println("Wartość id w client controller:" + transaction.getId());
 		return "newClient2";
 	}
 	
 	@PostMapping("/client/new")
 	public String newClientProcess(@Valid Client client, BindingResult bindingResult) {
-		System.out.println(client.getFirstName());
-		System.out.println(client.getLastName());
-		System.out.println(client.getAddress());
-		System.out.println(client.getCity());
-		System.out.println(client.getTelephone());
-		System.out.println(client.geteMail());
 		if(bindingResult.hasErrors()) {
+			return "newClient2";
+		}
+		if(this.clientRepository.findByeMail(client.geteMail()) != null) {
+			bindingResult.rejectValue("eMail", "dupliacted", "klient o takim adresie e-mail już istnieje");
 			return "newClient2";
 		}
 		else {
