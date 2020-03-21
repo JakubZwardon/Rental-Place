@@ -4,7 +4,7 @@
 <head th:replace="fragments/general.html :: headerfiles">
 </head>
 
-<body>
+<body onload="setFormDisplay()">
 <nav th:replace="fragments/general :: navbar"></nav>
 
 <div class="container">
@@ -108,43 +108,19 @@
 
 <script th:inline="javascript">
   /*<![CDATA[*/
-  document.getElementById("equipmentsList").selectedIndex = -1;
-  
-    //Ustawia min dla pola wyboru daty
-    function setMinDateToChoose() {
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth() + 1;
-      var yyyy = today.getFullYear();
-      
-      if(dd<10) {
-    	dd = '0' + dd;
-      }
-      if(mm<10) {
-        mm='0'+mm;
-      }
-      
-      today = yyyy + '-' + mm + '-' + dd;
-      document.getElementById("returnDateInput").setAttribute("min", today);
-    }
-  
     function checkMail(client) {
-      debugger;
       return client.eMail == document.getElementById("clientsList").value;
     }
     
     function checkEquipmentId(equipment) {
-      debugger;
       return equipment.id == document.getElementById("equipmentsList").value;
     }
     
     function validateUserInput() {
-    debugger;
       let clientsInDb = /*[[${clientsInDb}]]*/;
       let client = clientsInDb.find(checkMail);
       
       if(client == undefined) {
-        //alert("jest");
         document.getElementById("clientMailParagraf").value = "";
         document.getElementById("clientFirstNameParagraf").value = "";
         document.getElementById("clientLastName").value = "";
@@ -154,38 +130,32 @@
     }
   
     function printUser() {
-    debugger;
-    //alert("printuser");
-      //clientMail = document.getElementById("clientsList").value;
       let clientsInDb = /*[[${clientsInDb}]]*/;
       let client = clientsInDb.find(checkMail);
-      debugger;
       if(client == undefined) {
         document.getElementById("message").innerHTML = "Brak takiego clienta w bazie";
         document.getElementById("clientMailParagraf").value = " ";
         document.getElementById("clientFirstNameParagraf").value = "";
         document.getElementById("clientLastName").value = "";
       } else{
-        debugger;
         document.getElementById("clientMailParagraf").value = client.eMail;
         document.getElementById("clientFirstNameParagraf").value = client.firstName;
         document.getElementById("clientLastName").value = client.lastName;
         document.getElementById("message").innerHTML = "";
-        debugger;
       }
     }
     
     function printEquipment() {
-    debugger;
       let equipmentsInDb = /*[[${equipmentsInDb}]]*/;
       let equipment = equipmentsInDb.find(checkEquipmentId);
       document.getElementById("equipmentName").value = equipment.name;
       document.getElementById("equipmentProducer").value = equipment.producer;
       document.getElementById("equipmentModel").value = equipment.model;
     }
-    
   /*]]>*/
 </script>
+
+<script src="/resources/js/rental.js"></script>
 
 <th:block th:replace="fragments/general.html :: scripts"></th:block>
 
