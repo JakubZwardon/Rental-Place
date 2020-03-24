@@ -12,6 +12,7 @@ public interface ClientRepository extends Repository<Client, Integer> {
 	public Collection<Client> findAll();
 	
 	public Client findByeMail(String eMail);
+	public Client findById(Integer id);
 	
 	public void save(Client client);
 }
