@@ -26,17 +26,17 @@ public class ClientController {
 	@GetMapping("/client/new")
 	public String newClientInit(Model model, Client client) {
 		model.addAttribute("client", client);
-		return "newClient2";
+		return "newClient";
 	}
 	
 	@PostMapping("/client/new")
 	public String newClientProcess(@Valid Client client, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			return "newClient2";
+			return "newClient";
 		}
 		if(this.clientRepository.findByeMail(client.geteMail()) != null) {
 			bindingResult.rejectValue("eMail", "dupliacted", "klient o takim adresie e-mail już istnieje");
-			return "newClient2";
+			return "newClient";
 		}
 		else {
 			this.clientRepository.save(client);
