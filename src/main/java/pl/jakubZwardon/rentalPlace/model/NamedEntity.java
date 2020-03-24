@@ -25,6 +25,6 @@ public class NamedEntity extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "To string klasy NamedEntity; NamedEntity [name=" + name + "]";
+		return "NamedEntity [name=" + name + "]";
 	}
 }

@@ -1,6 +1,5 @@
 package pl.jakubZwardon.rentalPlace.controller;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -9,12 +8,9 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import pl.jakubZwardon.rentalPlace.IdWrapper;
 import pl.jakubZwardon.rentalPlace.model.Client;
 import pl.jakubZwardon.rentalPlace.model.Transaction;
 import pl.jakubZwardon.rentalPlace.repositories.ClientRepository;
@@ -63,9 +59,6 @@ public class ClientController {
 	@PostMapping("/clientDetails")
 	public String showClientDetails(Client client, Model model) {
 		client = this.clientRepository.findByeMail(client.geteMail());
-		//wczytanie tranzakcji
-		//System.out.println("Tranzakcja: "+ client.getTransactions().get(0).getEquipment());
-		//System.out.println("Tranzakcja: "+ client.getTransactions().get(1).getEquipment());
 		model.addAttribute("client", client);
 		
 		//Dziele tranzakcje na aktywne i te już zamknięte

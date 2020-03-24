@@ -3,14 +3,9 @@ package pl.jakubZwardon.rentalPlace.controller;
 import java.time.LocalDate;
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import pl.jakubZwardon.rentalPlace.model.Client;
@@ -27,21 +22,14 @@ public class WelcomeController {
 	private EquipmentRepository  equipmentRepository;
 	private ClientRepository clientRepository;
 	private TransactionRepository transactionRepository;
-	private RentalDateRepository rentalDateRepository;
 
 	public WelcomeController(EquipmentRepository equipmentRepository, ClientRepository clientRepository,
-			TransactionRepository transactionRepository, RentalDateRepository rentalDateRepository) {
+			TransactionRepository transactionRepository) {
 		super();
 		this.equipmentRepository = equipmentRepository;
 		this.clientRepository = clientRepository;
 		this.transactionRepository = transactionRepository;
-		this.rentalDateRepository = rentalDateRepository;
 	}
-	
-//	@InitBinder
-//	public void setAllowedFields(WebDataBinder dataBinder) {
-//		dataBinder.setDisallowedFields("id");
-//	}
 
 	@GetMapping("/home")
 	public String welcome() {
@@ -82,10 +70,6 @@ public class WelcomeController {
 		rentalDate.setId(null);
 			
 		Transaction transaction = new Transaction();
-		
-//		RentalDate rentalDate2 = new RentalDate();
-//		rentalDate2.setTargetReturnDate(rentalDate.getTargetReturnDate());
-//		rentalDate2.setRentalDate(LocalDate.now());
 			
 		transaction.setClient(client);
 		equipment.setRented(true);
@@ -107,56 +91,5 @@ public class WelcomeController {
 		//System.out.println(client.getLastName());
 		System.out.println(rentalDate.getTargetReturnDate());
 		return "redirect:/home";
-	}
-	
-	@GetMapping("/createDatabase")
-	public String createDatabase() {
-		Client client = new Client();
-		client.setFirstName("Jakub");
-		client.setLastName("Zwardoń");
-		client.setCity("Jasienica");
-		client.setAddress("Tulipanów 1373/2");
-		client.setTelephone("505951940");
-		client.seteMail("jakubzwardon@gmail.com");
-		this.clientRepository.save(client);
-		
-		Client client2 = new Client();
-		//client.setId(2);
-		client2.setFirstName("Ania");
-		client2.setLastName("Chmielewska");
-		client2.setCity("Katowice");
-		client2.setAddress("polna 373/2");
-		client2.setTelephone("698987756");
-		client2.seteMail("aniach@gmail.com");
-		this.clientRepository.save(client2);
-		
-		Equipment equipment = new Equipment();
-		equipment.setName("Makita");
-		equipment.setProdDate("2019-02-02");
-		equipment.setDescription("kosiarka");
-		this.equipmentRepository.save(equipment);
-		
-		Equipment equipment2 = new Equipment();
-		//equipment.setId(2);
-		equipment2.setName("Bosh");
-		equipment2.setProdDate("2012-03-02");
-		equipment2.setDescription("wkrętarka");
-		this.equipmentRepository.save(equipment2);
-		
-		return "redirect:home";
-	}
-	
-	@GetMapping("/testOnetoOne")
-	public String testOneToOne() {
-		RentalDate rentalDate = new RentalDate();
-		rentalDate.setRentalDate(LocalDate.now());
-		
-		Transaction transaction = new Transaction();
-		
-		rentalDate.setTransaction(transaction);
-		transaction.setRentalDate(rentalDate);
-		
-		transactionRepository.save(transaction);
-		return "redirect:home";
-	}
+	}	
 }
