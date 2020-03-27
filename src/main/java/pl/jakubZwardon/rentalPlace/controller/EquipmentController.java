@@ -1,5 +1,6 @@
 package pl.jakubZwardon.rentalPlace.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,18 +13,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import pl.jakubZwardon.rentalPlace.model.Client;
 import pl.jakubZwardon.rentalPlace.model.Equipment;
+import pl.jakubZwardon.rentalPlace.model.RentalDate;
 import pl.jakubZwardon.rentalPlace.model.Transaction;
+import pl.jakubZwardon.rentalPlace.repositories.ClientRepository;
 import pl.jakubZwardon.rentalPlace.repositories.EquipmentRepository;
+import pl.jakubZwardon.rentalPlace.repositories.TransactionRepository;
 
 @Controller
 public class EquipmentController {
 	private EquipmentRepository equipmentRepository;
+	private TransactionRepository transactionRepository;
+	private ClientRepository clientRepository;
 	
-	public EquipmentController(EquipmentRepository equipmentRepository) {
+	public EquipmentController(EquipmentRepository equipmentRepository, TransactionRepository transactionRepository,
+			ClientRepository clientRepository) {
+		super();
 		this.equipmentRepository = equipmentRepository;
+		this.transactionRepository = transactionRepository;
+		this.clientRepository = clientRepository;
 	}
-	
+
 	@GetMapping("/equipment/new")
 	public String newEquipmentInit(Model model) {
 		Equipment equipment = new Equipment();
@@ -85,5 +96,52 @@ public class EquipmentController {
 			this.equipmentRepository.save(equipment);
 			return "equipmentDetails";
 		}
+	}
+	
+	@GetMapping("/rentEquipment")
+	public String choseUserInit(Model model) {
+		//Pobieram tylko te które są na magazynie
+		Collection<Equipment> equipmentsInDb = this.equipmentRepository.findByisRentedFalse();
+		//Nie potrzebuje tranzakcji w tym widoku
+		for(Equipment cli : equipmentsInDb) {
+			cli.setTransactionsInternal(null);
+		}
+		model.addAttribute("equipmentsInDb", equipmentsInDb);
+		
+		Collection<Client> clientsInDb = this.clientRepository.findAll();
+		//nie potrzebuje tranzakcji w tym widoku
+		for(Client cli : clientsInDb) {
+			cli.setTransactionsInternal(null);
+		}
+		model.addAttribute("clientsInDb", clientsInDb);
+		
+		model.addAttribute("client", new Client());
+		model.addAttribute("equipment", new Equipment());
+		model.addAttribute("rentalDate", new RentalDate());
+		
+		return "/rentEquipment";
+	}
+	
+	@PostMapping("/rentEquipment")
+	public String choseUserProcess(Client client, Equipment equipment, RentalDate rentalDate) {
+		client = this.clientRepository.findByeMail(client.geteMail());
+		equipment = this.equipmentRepository.findById(equipment.getId());
+		
+		rentalDate.setRentalDate(LocalDate.now());
+		//nie może mieć wcześniej id
+		rentalDate.setId(null);
+			
+		Transaction transaction = new Transaction();
+			
+		transaction.setClient(client);
+		equipment.setRented(true);
+		transaction.setEquipment(equipment);
+			
+		rentalDate.setTransaction(transaction);
+		transaction.setRentalDate(rentalDate);
+			
+		this.transactionRepository.save(transaction);
+		
+		return "redirect:/home";
 	}
 }

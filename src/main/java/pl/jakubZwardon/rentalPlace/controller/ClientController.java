@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import pl.jakubZwardon.rentalPlace.model.Client;
-import pl.jakubZwardon.rentalPlace.model.Equipment;
 import pl.jakubZwardon.rentalPlace.model.Transaction;
 import pl.jakubZwardon.rentalPlace.repositories.ClientRepository;
 
@@ -85,10 +84,7 @@ public class ClientController {
 			return "clientDetails";
 		}
 		else {
-			
-			Client originalClient = this.clientRepository.findById(id);
 			client.setId(id);
-			//client.setRented(originalClient.isRented());
 			this.clientRepository.save(client);
 			return "clientDetails";
 		}

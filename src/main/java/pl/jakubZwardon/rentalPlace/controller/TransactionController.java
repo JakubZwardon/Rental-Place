@@ -34,5 +34,5 @@ public class TransactionController {
 		transaction.getEquipment().setRented(false);
 		this.transactions.save(transaction);
 		return "redirect:/transactions/" + id;
-	}
+	}	
 }
