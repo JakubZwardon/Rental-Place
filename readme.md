@@ -15,12 +15,15 @@ Css oraz bootstrap.
 
 W celu podbrania oraz uruchomienia aplikacji: 
 
+```
 git clone https://github.com/JakubZwardon/Rental-Place.git
 cd Rental-Place
 mvn package
 java -jar target/*.jar
+```
 
 dodatkowo należy utworzyć bazę danych o nazwie 'rentalplace' na localhost
 login: user
 hasło: user
-jeśli chcesz by dane były trwale przechowywane to po pierwszym uruchomieniu zmień pliku application.properties pole 'spring.jpa.hibernate.ddl-auto=create' na update
+jeśli chcesz by dane były trwale przechowywane 
+to po pierwszym uruchomieniu zmień pliku application.properties pole 'spring.jpa.hibernate.ddl-auto=create' na update
