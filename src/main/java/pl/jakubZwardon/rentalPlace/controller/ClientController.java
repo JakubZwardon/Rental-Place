@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -72,6 +74,7 @@ public class ClientController {
 				unactualTransaction.add(tr);
 			}
 		}
+		PropertyComparator.sort(unactualTransaction, new MutableSortDefinition("rentalDate.rentalDate", true, true));
 		model.addAttribute("actualTransaction", actualTransaction);
 		model.addAttribute("unactualTransaction", unactualTransaction);
 		return "clientDetails";
